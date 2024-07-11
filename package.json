@@ -1,19 +1,24 @@
 {
-	"name": "datsfilipe.dev",
-	"version": "1.0.50",
-	"scripts": {
-		"dev": "bun run --watch src/index.ts",
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"lint": "biome lint --error-on-warnings",
-		"lint:run": "biome lint --error-on-warnings --write ./src",
-		"format:run": "biome format --write ./src"
-	},
-	"dependencies": {
-		"elysia": "latest"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "1.8.3",
-		"bun-types": "latest"
-	},
-	"module": "src/index.js"
+  "name": "datsfilipe.dev",
+  "version": "1.0.50",
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "biome lint --error-on-warnings",
+    "lint:run": "biome lint --error-on-warnings --write ./src",
+    "format:run": "biome format --write ./src"
+  },
+  "dependencies": {
+    "@elysiajs/cors": "^1.0.4",
+    "@elysiajs/static": "^1.0.3",
+    "@elysiajs/trpc": "^1.0.2",
+    "@elysiajs/websocket": "^0.2.8",
+    "@trpc/server": "^10.45.2",
+    "elysia": "latest"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "1.8.3",
+    "bun-types": "latest"
+  },
+  "module": "src/index.js"
 }
