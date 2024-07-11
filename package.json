@@ -1,15 +1,19 @@
 {
-  "name": "datsfilipe.dev",
-  "version": "1.0.50",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
-  },
-  "dependencies": {
-    "elysia": "latest"
-  },
-  "devDependencies": {
-    "bun-types": "latest"
-  },
-  "module": "src/index.js"
+	"name": "datsfilipe.dev",
+	"version": "1.0.50",
+	"scripts": {
+		"dev": "bun run --watch src/index.ts",
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"lint": "biome lint --error-on-warnings",
+		"lint:run": "biome lint --error-on-warnings --write ./src",
+		"format:run": "biome format --write ./src"
+	},
+	"dependencies": {
+		"elysia": "latest"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "1.8.3",
+		"bun-types": "latest"
+	},
+	"module": "src/index.js"
 }
