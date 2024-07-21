@@ -2,23 +2,35 @@ import { Elysia } from 'elysia'
 import staticPlugin from '@elysiajs/static'
 import serverTiming from '@elysiajs/server-timing'
 
-import { renderToReadableStream } from 'react-dom/server'
-import App from './client/App'
+import { routes } from './client/router'
 import { createElement } from 'react'
+import { type ReactDOMServerReadableStream, renderToReadableStream, renderToString } from 'react-dom/server'
+import App from './client/App'
 
 const app = new Elysia()
 	.use(serverTiming())
 	.use(staticPlugin())
-	.get('/', async () => {
-		const app = createElement(App)
-		const stream = await renderToReadableStream(app, {
-			bootstrapScripts: ['/public/index.js']
-		})
-		// const html = renderToString(app)
+	.use((app: Elysia) => {
+		for (const route of routes) {
+			app.get(route.path, async () => {
+				let html: string | ReactDOMServerReadableStream
+				const props = { children: createElement(route.page) }
+				const app = createElement(App, props)
 
-		return new Response(stream, {
-			headers: { 'content-type': 'text/html' }
-		})
+				if (route.static) {
+					html = renderToString(app)
+				} else {
+					html = await renderToReadableStream(app, {
+						bootstrapScripts: ['/public/index.js']
+					})
+				}
+
+				return new Response(html, {
+					headers: { 'content-type': 'text/html' }
+				})
+			})
+		}
+		return app
 	})
 	.listen(3000)
 

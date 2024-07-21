@@ -1,6 +1,21 @@
-import { Counter } from './features/counter/ui/counter'
+import Home from './views'
 
-export default function App() {
+const routes = [{ path: '/', component: Home }]
+
+export const CurrentPage = () => {
+	const canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement)
+	if (!canUseDOM) return null
+
+	const route = window.location.pathname
+	const Page = routes.find(({ path }) => path === route)?.component
+
+	if (!Page) {
+		return <h1>404 Not Found</h1>
+	}
+	return <Page />
+}
+
+export default function App({ children }: { children?: React.ReactNode }) {
 	return (
 		<html lang='en'>
 			<head>
@@ -9,10 +24,7 @@ export default function App() {
 				<meta name='description' content='Bun, Elysia & React' />
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
 			</head>
-			<body>
-				<h1>Bun, Elysia & React</h1>
-				<Counter />
-			</body>
+			<body>{children}</body>
 		</html>
 	)
 }
