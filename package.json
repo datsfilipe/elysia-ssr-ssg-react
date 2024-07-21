@@ -2,7 +2,9 @@
   "name": "datsfilipe.dev",
   "version": "1.0.50",
   "scripts": {
-    "dev": "bun run --watch src/index.ts",
+    "dev": "bun server & bun build:client",
+    "server": "bun run --watch src/index.ts",
+    "build:client": "bun build ./src/client/index.tsx --outdir ./public --watch --format=esm --minify",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "biome lint --error-on-warnings",
     "lint:run": "biome lint --error-on-warnings --write ./src",
@@ -10,15 +12,24 @@
   },
   "dependencies": {
     "@elysiajs/cors": "^1.0.4",
+    "@elysiajs/server-timing": "^1.0.2",
     "@elysiajs/static": "^1.0.3",
     "@elysiajs/trpc": "^1.0.2",
     "@elysiajs/websocket": "^0.2.8",
     "@trpc/server": "^10.45.2",
-    "elysia": "latest"
+    "elysia": "latest",
+    "react": "^19.0.0-rc-85acf2d195-20240711",
+    "react-dom": "^19.0.0-rc-85acf2d195-20240711"
   },
   "devDependencies": {
+    "@types/react": "npm:types-react@rc",
+    "@types/react-dom": "npm:types-react-dom@rc",
     "@biomejs/biome": "1.8.3",
     "bun-types": "latest"
+  },
+  "overrides": {
+    "@types/react": "npm:types-react@rc",
+    "@types/react-dom": "npm:types-react-dom@rc"
   },
   "module": "src/index.js"
 }
