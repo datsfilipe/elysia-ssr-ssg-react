@@ -1,18 +1,11 @@
-import { lazy } from 'react'
 import fs from 'node:fs'
 import path from 'node:path'
+import { pages } from './client/shared/lib/pages'
 
 export type Route = {
 	path: string
 	static: boolean
 	page: React.ComponentType<unknown>
-}
-
-export const pages = {
-	home: {
-		path: '/',
-		component: lazy(() => import('./client/views'))
-	}
 }
 
 const getRoutes = (viewsDir: string) => {
@@ -22,9 +15,10 @@ const getRoutes = (viewsDir: string) => {
 		const filePath = path.join(viewsDir, file)
 		const fileContent = fs.readFileSync(filePath, 'utf-8')
 
-		const staticExport = fileContent.includes('export const static = false')
+		const firstLine = fileContent.split('\n')[0]
+		const staticExport = firstLine.includes('use static')
 		const routePath = path.parse(file).name
-		const route = routePath === 'index' ? '/' : routePath
+		const route = routePath === 'index' ? '/' : routePath === '404' ? '*' : `/${routePath}`
 
 		let page: React.ComponentType<unknown> | undefined
 		for (const key in pages) {
@@ -35,9 +29,7 @@ const getRoutes = (viewsDir: string) => {
 			}
 		}
 
-		if (!page) {
-			throw new Error(`No component found for route ${route}`)
-		}
+		if (!page) continue
 
 		routes.push({
 			path: route,
@@ -49,5 +41,5 @@ const getRoutes = (viewsDir: string) => {
 	return routes
 }
 
-const viewsDir = path.join(__dirname, 'views')
+const viewsDir = path.join(__dirname, 'client', 'views')
 export const routes = getRoutes(viewsDir)

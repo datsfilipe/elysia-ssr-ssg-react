@@ -2,11 +2,17 @@
 /// <reference lib="dom.iterable" />
 
 import { hydrateRoot } from 'react-dom/client'
-import App, { CurrentPage } from './App.js'
+import { Router } from './shared/lib/router'
+import App from './App.js'
 
-hydrateRoot(
-	document,
-	<App>
-		<CurrentPage />
-	</App>
-)
+const Root = () => {
+	return (
+		<>
+			<App>
+				<Router />
+			</App>
+		</>
+	)
+}
+
+hydrateRoot(document, <Root />)

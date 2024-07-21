@@ -2,9 +2,9 @@ import { Elysia } from 'elysia'
 import staticPlugin from '@elysiajs/static'
 import serverTiming from '@elysiajs/server-timing'
 
-import { routes } from './client/router'
+import { routes } from './router'
 import { createElement } from 'react'
-import { type ReactDOMServerReadableStream, renderToReadableStream, renderToString } from 'react-dom/server'
+import { type ReactDOMServerReadableStream, renderToReadableStream, renderToStaticMarkup } from 'react-dom/server'
 import App from './client/App'
 
 const app = new Elysia()
@@ -18,7 +18,7 @@ const app = new Elysia()
 				const app = createElement(App, props)
 
 				if (route.static) {
-					html = renderToString(app)
+					html = renderToStaticMarkup(app)
 				} else {
 					html = await renderToReadableStream(app, {
 						bootstrapScripts: ['/public/index.js']
